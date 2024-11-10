@@ -36,15 +36,22 @@ namespace MessageTranscriber
             this.openFileDialog1.ShowDialog();
             
             displayLoader(true);
-            if (manager.UploadFile(this.openFileDialog1.FileName))
+            try
             {
-                this.lblAudioFile.Text = this.openFileDialog1.SafeFileName;                
+                if (manager.UploadFile(this.openFileDialog1.FileName))
+                {
+                    this.lblAudioFile.Text = this.openFileDialog1.SafeFileName;
+                }
+                else
+                {
+                    this.lblAudioFile.Text = "There was an error saving your file!";
+                }
+                displayLoader(false);
             }
-            else
+            catch (Exception ex)
             {
-                this.lblAudioFile.Text = "There was an error saving your file!";
+                System.Console.WriteLine(ex);
             }
-            displayLoader(false);
         }
 
         private void btnTranscribe_Click(object sender, EventArgs e)
